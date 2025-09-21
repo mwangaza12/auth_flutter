@@ -27,7 +27,7 @@ class SignUpState extends State<SignUp> {
             title: Text('Form Submitted'),
 
             content: Text(
-              'Name: $_name\nEmail: $_email\n Password: $_password',
+              'Name: $_name\nEmail: $_email\nPassword: $_password',
             ),
 
             // Display the entered name and email
