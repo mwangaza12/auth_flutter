@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'db_helper.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -13,37 +14,24 @@ class SignUpState extends State<SignUp> {
   String _email = '';
   String _password = '';
 
-  void _submitForm() {
-    // Check if the form is valid
+  void _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      // Save the form data
       _formKey.currentState!.save();
 
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            // Title of the dialog
-            title: Text('Form Submitted'),
+      // Save to database
+      await DBHelper.insertUser({
+        'name': _name,
+        'email': _email,
+        'password': _password,
+      });
 
-            content: Text(
-              'Name: $_name\nEmail: $_email\nPassword: $_password',
-            ),
-
-            // Display the entered name and email
-            actions: <Widget>[
-              TextButton(
-                child: Text('OK', style: TextStyle(color: Colors.green)),
-
-                // Button to close the dialog
-                onPressed: () {
-                  // Close the dialog
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
+      // Show a snackbar instead of a dialog
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('User $_name saved successfully!'),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 3),
+        ),
       );
     }
   }
@@ -56,7 +44,8 @@ class SignUpState extends State<SignUp> {
         backgroundColor: Colors.green.shade900,
         foregroundColor: Colors.white,
       ),
-      body: Form(
+      body: SingleChildScrollView(
+        child:  Form(
         key: _formKey,
         child: Padding(
           padding: EdgeInsets.all(16.0),
@@ -132,6 +121,7 @@ class SignUpState extends State<SignUp> {
           ),
         ),
       ),
+    )
     );
   }
 }
