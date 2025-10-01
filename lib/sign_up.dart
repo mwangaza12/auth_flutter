@@ -117,6 +117,13 @@ class SignUpState extends State<SignUp> {
                 onPressed: _submitForm,
                 child: Text('Submit'),
               ),
+              SizedBox(height: 20),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, '/login');
+                },
+                child: Text('Already have an account? Login'),
+              ),
             ],
           ),
         ),

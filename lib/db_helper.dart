@@ -40,4 +40,15 @@ class DBHelper {
     final db = await database;
     return await db.query('users');
   }
+
+  static Future<int> loginUser(String email, String password) async {
+    final db = await database;
+    final result = await db.query(
+      'users',
+      where: 'email = ? AND password = ?',
+      whereArgs: [email, password],
+    );
+    return result.isNotEmpty ? result.first['id'] as int : -1;
+  }
+  
 }
